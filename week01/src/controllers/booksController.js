@@ -6,4 +6,15 @@ const getAllBooks = async (req, res) => {
   res.status(200).json(books);
 };
 
-export { getAllBooks };
+const getBookById = async (req, res) => {
+  const db = getDb();
+  const book = await db.collection('books').findOne({ id: req.params.id });
+
+  if (!book) {
+    return res.status(404).json({ message: 'Book not found' });
+  }
+
+  res.status(200).json(book);
+};
+
+export { getAllBooks, getBookById };
