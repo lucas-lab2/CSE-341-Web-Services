@@ -1,0 +1,12 @@
+{
+  "name": "week01",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.6.0"
+  }
+}
