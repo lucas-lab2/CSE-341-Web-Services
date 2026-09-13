@@ -6,7 +6,7 @@ GitHub Pull Request Link: https://github.com/lucas-lab2/CSE-341-Web-Services/pul
 
 2. Include a link to one of your Issues at GitHub. (It should be closed at this point.)
 
-GitHub Issue Link: https://github.com/lucas-lab2/CSE-341-Web-Services/issues/1
+GitHub Issue Link:https://github.com/lucas-lab2/CSE-341-Web-Services/issues/2
 
 3. Which issue took more or less time than expected? Why?
 
