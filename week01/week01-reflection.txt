@@ -1,0 +1,37 @@
+# Week 01 Reflection
+
+1. Include a link to one of your Pull Requests (PRs) at GitHub. (It should be merged and closed at this point.)
+
+GitHub Pull Request Link: https://github.com/lucas-lab2/CSE-341-Web-Services/pull/1
+
+2. Include a link to one of your Issues at GitHub. (It should be closed at this point.)
+
+GitHub Issue Link: https://github.com/lucas-lab2/CSE-341-Web-Services/issues/1
+
+3. Which issue took more or less time than expected? Why?
+
+Answer: Issue 1 (connecting to MongoDB Atlas and configuring database credentials) took a bit more time than expected because it required creating the cluster, setting up network access permissions in Atlas, and properly handling environment variables between local development and cloud hosting. On the other hand, Issues 2 and 3 for the Express routes and controllers took less time because the database connection layer was already cleanly abstracted.
+
+4. Include a link to your walk-though video. (It must include your name, show your web service working at Render, explain the way your `Get Single Book` controller works, and discuss status codes.):
+
+Video link: [Cole aqui o link do seu vídeo do YouTube / Loom após gravar]
+
+5.a. Include a GitHub link to a file that shows how your app uses sensitive data, such as the MongoDB connection string.
+
+GitHub link: https://github.com/lucas-lab2/CSE-341-Web-Services/blob/main/week01/src/db/connect.js
+
+5.b. How did you store sensitive data? Why is that approach important?
+
+Answer: Sensitive credentials such as the database connection string (MONGODB_URI) and database name (MONGODB_DB_NAME) are stored in environment variables, referenced in local development via a `.env` file and configured in Render's environment settings in production. The `.env` file is excluded from version control via `.gitignore`. This is essential because hardcoding credentials in source code exposes database access to anyone viewing the repository, leading to severe security vulnerabilities.
+
+6.a. Include a GitHub link to a file that shows one other implementation decision you made.
+
+GitHub link: https://github.com/lucas-lab2/CSE-341-Web-Services/blob/main/week01/src/controllers/booksController.js
+
+6.b. What decision does this file show, and why did you make that choice?
+
+Answer: This file shows separating the controller logic into a dedicated controller file (`booksController.js`) rather than placing business logic directly inside route definitions (`books.js`), as well as wrapping database calls in `try...catch` blocks that return explicit HTTP status codes (200 OK for successful queries, 404 Not Found when a book ID is invalid, and 500 Internal Server Error for database failures). This adheres to the Single Responsibility Principle and MVC architecture, making the application modular, maintainable, and robust.
+
+7. What is one specific habit or process you will work on for next week?
+
+Answer: Next week, I will practice creating all GitHub Issues and their corresponding feature branches upfront at the planning stage before writing code, strictly committing and testing one feature per branch to keep the Git history cleanly organized.
