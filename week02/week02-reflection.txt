@@ -1,0 +1,33 @@
+# Week 02 Reflection
+
+## Links
+
+1. Provide your walk-through video link. This video must demonstrate your API working at Render and follow the script in the assignment.
+Video link: https://www.youtube.com/watch?v=EA4BvWFD7fM
+
+2. Provide a link to your deployed Render api-docs URL:
+Render link: https://cse-341-web-services-2ox1.onrender.com/api-docs
+
+3. Provide links to your Pull Requests (they should be merged at this point):
+Books PR: https://github.com/lucas-lab2/CSE-341-Web-Services/pull/6
+Authors PR: https://github.com/lucas-lab2/CSE-341-Web-Services/pull/5
+
+4. Provide links to your GitHub Issues (they should be closed at this point).
+Books Issue: https://github.com/lucas-lab2/CSE-341-Web-Services/issues/4
+Authors Issue: https://github.com/lucas-lab2/CSE-341-Web-Services/issues/3
+
+## Plan vs. Implementation
+
+5. Which part of the work took more or less time than expected? Why?
+
+Answer: Setting up the MongoDB Atlas connection and resolving the database URI took more time than expected because I had two different clusters and had to figure out which one the API was connecting to. Additionally, configuring the Render IP whitelist was a bit confusing at first.
+
+6. How did Swagger help you in your work this week?
+
+Answer: Swagger helped a lot by allowing me to test all my routes visually right in the browser, without needing to set up a separate tool like Postman. It also made testing my live Render deployment much easier.
+
+## Week 03 Improvement
+
+7. What is one specific habit or process you will apply next week?
+
+Answer: Next week, I will double-check my database connection strings and environment variables before starting to test my API routes to save debugging time.
