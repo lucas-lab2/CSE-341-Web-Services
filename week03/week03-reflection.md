@@ -17,14 +17,12 @@ Video link: [TO BE ADDED — record using the script in `video-script.md`]
 3. Provide links to all GitHub Issues you created for your selected feature set.
 
 Issue links:
-- https://github.com/lucas-lab2/CSE-341-Web-Services/issues/[ISSUE-NUMBER]
-  *(Title: "Implement Mongoose Schemas, MVC Controllers, and API Routes — Feature Sets 1–5")*
+- https://github.com/lucas-lab2/CSE-341-Web-Services/issues/7
 
 4. Provide links to all Pull Requests you created for your selected feature set.
 
 Pull request links:
-- https://github.com/lucas-lab2/CSE-341-Web-Services/pull/[PR-NUMBER]
-  *(Title: "Week 03 — Mongoose Schemas, MVC API, and Frontend Hydration")*
+- https://github.com/lucas-lab2/CSE-341-Web-Services/pull/8
 
 ---
 
