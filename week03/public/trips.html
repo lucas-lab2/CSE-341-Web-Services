@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kizuna Rail — Trips</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 2rem; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; color: #f8fafc; }
+    .subtitle { color: #94a3b8; margin-bottom: 2rem; font-size: 0.95rem; }
+    nav { margin-bottom: 2rem; }
+    nav a { color: #60a5fa; text-decoration: none; margin-right: 1rem; font-size: 0.9rem; }
+    nav a:hover { text-decoration: underline; }
+    #status { margin-bottom: 1.5rem; color: #94a3b8; font-size: 0.9rem; min-height: 1.5rem; }
+    #status.error { color: #f87171; }
+    #trip-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+    .trip-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 0.75rem;
+      padding: 1.25rem; transition: border-color 0.2s, transform 0.2s;
+    }
+    .trip-card:hover { border-color: #a78bfa; transform: translateY(-2px); }
+    .trip-route {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #a78bfa; margin-bottom: 0.35rem;
+    }
+    .trip-name { font-size: 1.15rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.75rem; }
+    .trip-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .badge { background: #0f172a; border: 1px solid #334155; border-radius: 999px; padding: 0.15rem 0.6rem; font-size: 0.75rem; color: #94a3b8; }
+    .trip-desc { font-size: 0.85rem; color: #64748b; line-height: 1.5; }
+    .trip-stations { font-size: 0.78rem; color: #475569; margin-top: 0.5rem; }
+    .trip-stations strong { color: #64748b; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/">← API Root</a>
+    <a href="/api-docs">Swagger Docs</a>
+    <a href="/trains.html">Trains</a>
+  </nav>
+
+  <h1>🗾 Kizuna Rail — Scenic Trips</h1>
+  <p class="subtitle">Client-side hydration demo — data fetched from <code>/api/trips</code></p>
+
+  <p id="status">Loading trips…</p>
+
+  <section id="trip-list" aria-live="polite"></section>
+
+  <!-- Template for one trip card -->
+  <template id="trip-card-template">
+    <article class="trip-card">
+      <div class="trip-route"></div>
+      <div class="trip-name"></div>
+      <div class="trip-meta">
+        <span class="badge trip-duration"></span>
+        <span class="badge trip-distance"></span>
+      </div>
+      <p class="trip-desc"></p>
+      <p class="trip-stations"><strong>Stops:</strong> <span class="trip-stops"></span></p>
+    </article>
+  </template>
+
+  <script type="module">
+    const statusEl = document.querySelector('#status');
+    const listEl   = document.querySelector('#trip-list');
+    const template = document.querySelector('#trip-card-template');
+
+    /**
+     * Fetch all trips from the JSON API.
+     * Throws if the response is not ok (4xx / 5xx).
+     */
+    const loadTrips = async () => {
+      const response = await fetch('/api/trips');
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`);
+      }
+      return response.json();
+    };
+
+    /**
+     * Clone the template once per trip and fill it with API data.
+     */
+    const renderTrips = (trips) => {
+      const fragment = document.createDocumentFragment();
+
+      trips.forEach((trip) => {
+        const card = template.content.cloneNode(true);
+
+        card.querySelector('.trip-route').textContent    = `${trip.origin} → ${trip.destination}`;
+        card.querySelector('.trip-name').textContent     = trip.name;
+        card.querySelector('.trip-duration').textContent = `${trip.durationMinutes} min`;
+        card.querySelector('.trip-distance').textContent =
+          trip.distanceKm ? `${trip.distanceKm} km` : 'Distance N/A';
+        card.querySelector('.trip-desc').textContent     = trip.description ?? '';
+
+        const stops = trip.stations && trip.stations.length > 0
+          ? trip.stations.join(' · ')
+          : 'Direct service';
+        card.querySelector('.trip-stops').textContent = stops;
+
+        fragment.append(card);
+      });
+
+      listEl.replaceChildren(fragment);
+    };
+
+    // ── Main ──────────────────────────────────────────────────
+    try {
+      const trips = await loadTrips();
+
+      if (trips.length === 0) {
+        statusEl.textContent = 'No trips found. The database collection may be empty.';
+      } else {
+        statusEl.textContent = `Showing ${trips.length} trip${trips.length !== 1 ? 's' : ''}.`;
+        renderTrips(trips);
+      }
+    } catch (err) {
+      statusEl.textContent = `Error loading trips: ${err.message}`;
+      statusEl.classList.add('error');
+      console.error(err);
+    }
+  </script>
+
+</body>
+</html>
