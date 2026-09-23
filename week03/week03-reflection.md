@@ -12,7 +12,7 @@ Answer: As a solo developer, I was responsible for all five feature sets: **Feat
 
 2. Provide your walk-through video link. This video must demonstrate your feature working locally and follow the script in the assignment. (If you created more than one video for your feature set, include them all here.)
 
-Video link: [TO BE ADDED — record using the script in `video-script.md`]
+Video link: https://youtu.be/faFL1D475vM
 
 3. Provide links to all GitHub Issues you created for your selected feature set.
 
