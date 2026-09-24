@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kizuna Rail — Trains</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 2rem; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; color: #f8fafc; }
+    .subtitle { color: #94a3b8; margin-bottom: 2rem; font-size: 0.95rem; }
+    nav { margin-bottom: 2rem; }
+    nav a { color: #60a5fa; text-decoration: none; margin-right: 1rem; font-size: 0.9rem; }
+    nav a:hover { text-decoration: underline; }
+    #status { margin-bottom: 1.5rem; color: #94a3b8; font-size: 0.9rem; min-height: 1.5rem; }
+    #status.error { color: #f87171; }
+    #train-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+    .train-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 0.75rem;
+      padding: 1.25rem; transition: border-color 0.2s, transform 0.2s;
+    }
+    .train-card:hover { border-color: #60a5fa; transform: translateY(-2px); }
+    .train-name { font-size: 1.1rem; font-weight: 600; color: #f1f5f9; margin-bottom: 0.25rem; }
+    .train-operator { font-size: 0.8rem; color: #60a5fa; font-weight: 500; margin-bottom: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .train-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .badge { background: #0f172a; border: 1px solid #334155; border-radius: 999px; padding: 0.15rem 0.6rem; font-size: 0.75rem; color: #94a3b8; }
+    .train-desc { font-size: 0.85rem; color: #64748b; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/">← API Root</a>
+    <a href="/api-docs">Swagger Docs</a>
+    <a href="/trips.html">Trips →</a>
+  </nav>
+
+  <h1>🚄 Kizuna Rail — Train Fleet</h1>
+  <p class="subtitle">Client-side hydration demo — data fetched from <code>/api/trains</code></p>
+
+  <p id="status">Loading trains…</p>
+
+  <section id="train-list" aria-live="polite"></section>
+
+  <!-- Template for one train card — not rendered until JS clones it -->
+  <template id="train-card-template">
+    <article class="train-card">
+      <div class="train-name"></div>
+      <div class="train-operator"></div>
+      <div class="train-meta">
+        <span class="badge train-type"></span>
+        <span class="badge train-speed"></span>
+        <span class="badge train-power"></span>
+        <span class="badge train-capacity"></span>
+      </div>
+      <p class="train-desc"></p>
+    </article>
+  </template>
+
+  <script type="module">
+    const statusEl = document.querySelector('#status');
+    const listEl   = document.querySelector('#train-list');
+    const template = document.querySelector('#train-card-template');
+
+    /**
+     * Fetch all trains from the JSON API.
+     * Throws if the response is not ok (4xx / 5xx).
+     */
+    const loadTrains = async () => {
+      const response = await fetch('/api/trains');
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`);
+      }
+      return response.json();
+    };
+
+    /**
+     * Clone the template once per train and fill it with API data.
+     * Uses textContent (never innerHTML) for safety.
+     */
+    const renderTrains = (trains) => {
+      const fragment = document.createDocumentFragment();
+
+      trains.forEach((train) => {
+        const card = template.content.cloneNode(true);
+
+        card.querySelector('.train-name').textContent     = train.name;
+        card.querySelector('.train-operator').textContent = train.operator;
+        card.querySelector('.train-type').textContent     = train.type;
+        card.querySelector('.train-speed').textContent    = `${train.maxSpeedKmh} km/h max`;
+        card.querySelector('.train-power').textContent    = train.powerSource;
+        card.querySelector('.train-capacity').textContent = `${train.capacity} seats`;
+        card.querySelector('.train-desc').textContent     = train.bestFor ?? train.description ?? '';
+
+        fragment.append(card);
+      });
+
+      listEl.replaceChildren(fragment);
+    };
+
+    // ── Main ──────────────────────────────────────────────────
+    try {
+      const trains = await loadTrains();
+
+      if (trains.length === 0) {
+        statusEl.textContent = 'No trains found. The database collection may be empty.';
+      } else {
+        statusEl.textContent = `Showing ${trains.length} train${trains.length !== 1 ? 's' : ''}.`;
+        renderTrains(trains);
+      }
+    } catch (err) {
+      statusEl.textContent = `Error loading trains: ${err.message}`;
+      statusEl.classList.add('error');
+      console.error(err);
+    }
+  </script>
+
+</body>
+</html>

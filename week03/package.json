@@ -1,0 +1,19 @@
+{
+  "name": "week03",
+  "version": "1.0.0",
+  "description": "CSE 341 Week 03 — Kizuna Rail API (Mongoose + Frontend Hydration)",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --env-file=.env --watch server.js",
+    "swagger": "node swagger.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^8.14.1",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "swagger-jsdoc": "^6.2.8"
+  }
+}
