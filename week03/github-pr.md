@@ -1,7 +1,7 @@
 # Pull Request: Week 03 — Mongoose Schemas, MVC API, and Frontend Hydration
 
 **Branch:** `week03/mongoose-api` → `main`  
-**Closes:** #[ISSUE-NUMBER] (Implement Mongoose Schemas, MVC Controllers, and API Routes — Feature Sets 1–5)
+**Closes:** #7 (Implement Mongoose Schemas, MVC Controllers, and API Routes — Feature Sets 1–5)
 
 ---
 
@@ -66,7 +66,7 @@ This PR implements the complete Week 03 feature set for the Kizuna Rail API, mig
 
 ## Walk-through Video
 
-🎥 [Watch the Week 03 demo video — LINK TO BE ADDED AFTER RECORDING]
+🎥 [Watch the Week 03 demo video](https://youtu.be/faFL1D475vM)
 
 > The video demonstrates:
 > 1. The complete API working locally via Swagger UI
